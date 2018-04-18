@@ -5,8 +5,8 @@ help:
 	@echo "    Uninstall banneret"
 
 install:
-	cp -f src/banneret.sh ~/bin/bnrt
+	cp -f bnrt.sh ~/bin/bnrt
 	chmod +x ~/bin/bnrt
 
 uninstall:
-	rm ~/bin/banneret.sh
+	rm ~/bin/bnrt
