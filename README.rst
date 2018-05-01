@@ -6,6 +6,6 @@ Bash scripts collection
 utils
 -----
 
-- bnrt_ - PyCharm management CLI tool
+- qa_ - JetBrains QA related tasks
 
-.. _bnrt: bnrt/
+.. _qa: qa/
