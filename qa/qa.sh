@@ -3,6 +3,9 @@
 version=0.1.0
 
 if [[ $1 = "docker" ]]; then
+    curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null
+    if [[ "$?" != "0" ]]; then echo "Docker daemon is down" && exit 1; fi
+
     containers=$(docker ps -q)
     all_containers=$(docker ps -a -q)
     images=$(docker images -q)
