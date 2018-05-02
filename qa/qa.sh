@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+version=0.1.0
+
 if [[ $1 = "docker" ]]; then
     containers=$(docker ps -q)
     all_containers=$(docker ps -a -q)
@@ -28,7 +30,9 @@ elif [[ $1 = "archive" ]]; then
     zip -rq ${archive} .
     echo ${archive}
 elif [[ $1 = "clean" ]]; then
-    echo "Clean" 
+    echo "Clean"
+elif [[ $1 = "version" ]]; then
+    echo "qa ${version}"
 else
     echo Unknown command
 fi
