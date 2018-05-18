@@ -1,2 +1,8 @@
 # vim
 *.swp
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
