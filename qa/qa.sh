@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=0.1.0
+version=0.1.1
 
 if [[ $1 = "docker" ]]; then
     curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null
@@ -34,6 +34,12 @@ elif [[ $1 = "archive" ]]; then
     echo ${archive}
 elif [[ $1 = "clean" ]]; then
     echo "Clean"
+elif [[ $1 = "deploy" ]]; then
+    for archive in ~/Downloads/pycharmP*.tar.gz; do
+        echo "Deploying ${archive} ..."
+        cat ${archive} | pv | ssh -p 2200 parallels@localhost \
+            "tar xzf - -C ~/jetbrains"
+    done
 elif [[ $1 = "version" ]]; then
     echo "qa ${version}"
 else
