@@ -60,11 +60,16 @@ elif [[ $1 = "clean" ]]; then
     plugins="${HOME}/Library/Application Support/$2"
     logs="${HOME}/Library/Logs/$2"
 
-    rm -rf "${configs}" "${caches}" "${plugins}" "${logs}"
+    echo "rm ${configs}" && rm -rf "${configs}"
+    echo "rm ${caches}"  && rm -rf "${caches}"
+    echo "rm ${plugins}" && rm -rf "${plugins}"
+    echo "rm ${logs}"    && rm -rf "${logs}"
 elif [[ $1 = "deploy" ]]; then
     for archive in ~/Desktop/pycharmP*.tar.gz; do
         echo "Deploying ${archive} ..."
-        cat ${archive} | pv | ssh -p 2200 parallels@localhost "tar xzf - -C ~/jetbrains"
+        cat "${archive}" | pv | ssh -p 2200 parallels@localhost "tar xzf - -C ~/jetbrains"
+        echo "rm ${archive}"
+        rm "${archive}"
     done
 elif [[ $1 = "version" ]]; then
     echo "qa $version"
