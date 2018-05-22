@@ -13,52 +13,51 @@ if [[ $1 = "docker" ]]; then
     volumes=$(docker volume ls -q)
 
     echo -n "Stop containers "
-    for running_container in $running_containers; do
-        docker stop $running_container > /dev/null
+    for running_container in ${running_containers}; do
+        docker stop ${running_container} > /dev/null
         echo -n "."
     done
     echo ""
 
     echo -n "Remove containers "
-    for container in $all_containers; do
-        docker rm -f $container > /dev/null
+    for container in ${all_containers}; do
+        docker rm -f ${container} > /dev/null
         echo -n "."
     done
     echo ""
 
     echo -n "Remove images "
-    for image in $images; do
-        docker rmi -f $image > /dev/null
+    for image in ${images}; do
+        docker rmi -f ${image} > /dev/null
         echo -n "."
     done
     echo ""
 
     echo -n "Remove networks "
-    for network in $networks; do
-        docker network rm $network > /dev/null
+    for network in ${networks}; do
+        docker network rm ${network} > /dev/null
         echo -n "."
     done
     echo ""
 
     echo -n "Remove volumes "
-    for volume in $volumes; do
-        docker volume rm $volume > /dev/null
+    for volume in ${volumes}; do
+        docker volume rm ${volume} > /dev/null
         echo -n "."
     done
     echo ""
 
     echo "Done"
 elif [[ $1 = "archive" ]]; then
-    archive=~/Desktop/$(basename "$PWD").zip
-    zip -rq $archive .
-    echo $archive
+    archive=~/Desktop/$(basename "${PWD}").zip
+    zip -rq ${archive} .
+    echo ${archive}
 elif [[ $1 = "clean" ]]; then
     echo "Clean"
 elif [[ $1 = "deploy" ]]; then
-    for archive in ~/Downloads/pycharmP*.tar.gz; do
-        echo "Deploying $archive ..."
-        cat $archive | pv | ssh -p 2200 parallels@localhost \
-            "tar xzf - -C ~/jetbrains"
+    for archive in ~/Desktop/pycharmP*.tar.gz; do
+        echo "Deploying ${archive} ..."
+        cat ${archive} | pv | ssh -p 2200 parallels@localhost "tar xzf - -C ~/jetbrains"
     done
 elif [[ $1 = "version" ]]; then
     echo "qa $version"
