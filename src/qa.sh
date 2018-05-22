@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=0.1.2
+version=0.1.3
 
 if [[ $1 = "docker" ]]; then
     curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null
@@ -53,7 +53,14 @@ elif [[ $1 = "archive" ]]; then
     zip -rq ${archive} .
     echo ${archive}
 elif [[ $1 = "clean" ]]; then
-    echo "Clean"
+    if [[ ! $2 =~ ^PyCharm(CE)?[0-9]{4}\.[0-9]$ ]]; then echo "Wrong version" && exit 1; fi
+
+    configs="${HOME}/Library/Preferences/$2"
+    caches="${HOME}/Library/Caches/$2"
+    plugins="${HOME}/Library/Application Support/$2"
+    logs="${HOME}/Library/Logs/$2"
+
+    rm -rf "${configs}" "${caches}" "${plugins}" "${logs}"
 elif [[ $1 = "deploy" ]]; then
     for archive in ~/Desktop/pycharmP*.tar.gz; do
         echo "Deploying ${archive} ..."
