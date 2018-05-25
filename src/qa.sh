@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=0.1.3
+version=0.1.4
 
 if [[ $1 = "docker" ]]; then
     curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null
