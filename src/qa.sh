@@ -5,7 +5,7 @@ version=0.1.3
 if [[ $1 = "docker" ]]; then
     curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null
     if [[ "$?" != "0" ]]; then echo "Docker daemon is down" && exit 1; fi
-    if [[ ! -x "(command -v docker)" ]]; then echo "No docker in PATH" && exit 1; fi
+    if [[ ! -x "$(command -v docker)" ]]; then echo "No docker in PATH" && exit 1; fi
     
     running_containers=$(docker ps -q)
     all_containers=$(docker ps -a -q)
