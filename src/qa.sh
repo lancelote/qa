@@ -68,7 +68,7 @@ elif [[ $1 = "clean" ]]; then
 elif [[ $1 = "deploy" ]]; then
     for archive in ~/Desktop/pycharmP*.tar.gz; do
         echo "Deploying ${archive} ..."
-        cat "${archive}" | pv | ssh -p 2200 parallels@localhost "tar xzf - -C ~/jetbrains"
+        cat "${archive}" | pv | ssh parallels@localhost -p 2200 -i ~/.ssh/parallels_vm "tar xzf - -C ~/jetbrains"
         echo "rm ${archive}"
         rm "${archive}"
     done
