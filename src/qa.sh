@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=0.1.6
+version=0.1.7
 ide_version_pattern="^((PyCharm(CE)?)|(IdeaIC)|(IntelliJIdea))[0-9]{4}\.[0-9]$"
 
 if [[ $1 = "docker" ]]; then
@@ -69,10 +69,13 @@ elif [[ $1 = "clean" ]]; then
 elif [[ $1 = "deploy" ]]; then
     shopt -s nullglob
     for archive in ~/Desktop/{idea,pycharm}*.tar.gz; do
-        echo "Deploying ${archive} ..."
-        cat "${archive}" | pv | ssh parallels@localhost -p 2200 -i ~/.ssh/parallels_vm "tar xzf - -C ~/jetbrains"
+        echo "deploying ${archive} ..."
+        cat "${archive}" | ssh parallels@localhost -p 2200 -i ~/.ssh/parallels_vm "tar xzf - -C ~/jetbrains"
         echo "rm ${archive}"
         rm "${archive}"
+    done
+    for plugin in ~/Desktop/python*.zip; do
+	scp -P 2200 -i ~/.ssh/parallels_vm "${plugin}" parallels@localhost:/home/parallels/jetbrains
     done
     shopt -u nullglob
 elif [[ $1 = "version" ]]; then
