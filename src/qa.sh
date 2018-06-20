@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=0.1.4
+version=0.1.6
 ide_version_pattern="^((PyCharm(CE)?)|(IdeaIC)|(IntelliJIdea))[0-9]{4}\.[0-9]$"
 
 if [[ $1 = "docker" ]]; then
@@ -67,12 +67,14 @@ elif [[ $1 = "clean" ]]; then
     echo "rm ${plugins}" && rm -rf "${plugins}"
     echo "rm ${logs}"    && rm -rf "${logs}"
 elif [[ $1 = "deploy" ]]; then
-    for archive in ~/Desktop/pycharmP*.tar.gz; do
+    shopt -s nullglob
+    for archive in ~/Desktop/{idea,pycharm}*.tar.gz; do
         echo "Deploying ${archive} ..."
         cat "${archive}" | pv | ssh parallels@localhost -p 2200 -i ~/.ssh/parallels_vm "tar xzf - -C ~/jetbrains"
         echo "rm ${archive}"
         rm "${archive}"
     done
+    shopt -u nullglob
 elif [[ $1 = "version" ]]; then
     echo "qa $version"
 else
