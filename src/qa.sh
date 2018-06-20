@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 version=0.1.4
+ide_version_pattern="^((PyCharm(CE)?)|(IdeaIC)|(IntelliJIdea))[0-9]{4}\.[0-9]$"
 
 if [[ $1 = "docker" ]]; then
     curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null
     if [[ "$?" != "0" ]]; then echo "Docker daemon is down" && exit 1; fi
     if [[ ! -x "$(command -v docker)" ]]; then echo "No docker in PATH" && exit 1; fi
-    
+
     running_containers=$(docker ps -q)
     all_containers=$(docker ps -a -q)
     images=$(docker images -q)
@@ -54,7 +55,7 @@ elif [[ $1 = "archive" ]]; then
     zip -rq ${archive} .
     echo ${archive}
 elif [[ $1 = "clean" ]]; then
-    if [[ ! $2 =~ ^PyCharm(CE)?[0-9]{4}\.[0-9]$ ]]; then echo "Wrong version" && exit 1; fi
+    if [[ ! $2 =~ ${ide_version_pattern} ]]; then echo "Wrong version" && exit 1; fi
 
     configs="${HOME}/Library/Preferences/$2"
     caches="${HOME}/Library/Caches/$2"
