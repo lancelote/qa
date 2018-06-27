@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=0.1.7
+version=0.1.8
 ide_version_pattern="^((PyCharm(CE)?)|(IdeaIC)|(IntelliJIdea))[0-9]{4}\.[0-9]$"
 
 if [[ $1 = "docker" ]]; then
@@ -23,28 +23,28 @@ if [[ $1 = "docker" ]]; then
 
     echo -n "Remove containers "
     for container in ${all_containers}; do
-        docker rm -f ${container} > /dev/null
+        docker rm -f ${container} > /dev/null 2>&1
         echo -n "."
     done
     echo ""
 
     echo -n "Remove images "
     for image in ${images}; do
-        docker rmi -f ${image} > /dev/null
+        docker rmi -f ${image} > /dev/null 2>&1
         echo -n "."
     done
     echo ""
 
     echo -n "Remove networks "
     for network in ${networks}; do
-        docker network rm ${network} > /dev/null
+        docker network rm ${network} > /dev/null 2>&1
         echo -n "."
     done
     echo ""
 
     echo -n "Remove volumes "
     for volume in ${volumes}; do
-        docker volume rm ${volume} > /dev/null
+        docker volume rm ${volume} > /dev/null 2>&1
         echo -n "."
     done
     echo ""
