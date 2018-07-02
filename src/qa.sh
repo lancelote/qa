@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=0.1.8
+version=0.1.9
 ide_version_pattern="^((PyCharm(CE)?)|(IdeaIC)|(IntelliJIdea))[0-9]{4}\.[0-9]$"
 
 if [[ $1 = "docker" ]]; then
@@ -78,6 +78,11 @@ elif [[ $1 = "deploy" ]]; then
 	scp -P 2200 -i ~/.ssh/parallels_vm "${plugin}" parallels@localhost:/home/parallels/jetbrains
     done
     shopt -u nullglob
+elif [[ $1 = "save" ]]; then
+    if [[ -z "${PROJECTS_BACKUP}" ]]; then echo "Please set PROJECTS_BACKUP folder" && exit 1; fi
+    project="$(basename "${PWD}")"
+    rm -rf "${PROJECTS_BACKUP}/${project}"
+    cp -r "../${project}" "${PROJECTS_BACKUP}"
 elif [[ $1 = "version" ]]; then
     echo "qa $version"
 else
