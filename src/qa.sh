@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-version=0.1.9
+version=0.1.10
 ide_version_pattern="^((PyCharm(CE)?)|(IdeaIC)|(IntelliJIdea))[0-9]{4}\.[0-9]$"
+project="$(basename "${PWD}")"
+
+if [[ -z "${PROJECTS_BACKUP}" ]]; then echo "Please set PROJECTS_BACKUP folder" && exit 1; fi
 
 if [[ $1 = "docker" ]]; then
     curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null
@@ -79,10 +82,18 @@ elif [[ $1 = "deploy" ]]; then
     done
     shopt -u nullglob
 elif [[ $1 = "save" ]]; then
-    if [[ -z "${PROJECTS_BACKUP}" ]]; then echo "Please set PROJECTS_BACKUP folder" && exit 1; fi
-    project="$(basename "${PWD}")"
     rm -rf "${PROJECTS_BACKUP}/${project}"
     cp -r "../${project}" "${PROJECTS_BACKUP}"
+elif [[ $1 = "goto" ]]; then
+    if [[ $2 = "backups" ]]; then
+	cd "${PROJECTS_BACKUP}"
+    elif [[ $2 = "backup" ]]; then
+	if [[ -z $3 ]]; then
+	    cd "${PROJECTS_BACKUP}/${project}"
+	else
+	    cd "${PROJECTS_BACKUP}/$3"
+	fi
+    fi
 elif [[ $1 = "version" ]]; then
     echo "qa $version"
 else
