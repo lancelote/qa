@@ -27,7 +27,7 @@ if [[ $1 = "docker" ]]; then
 
     echo -n "Stop containers "
     for running_container in ${running_containers}; do
-        docker stop ${running_container} > /dev/null
+        docker stop ${running_container} > /dev/null 2>&1
         echo -n "."
     done
     echo ""
