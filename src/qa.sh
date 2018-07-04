@@ -12,8 +12,6 @@ version=0.1.11
 ide_version_pattern="^((PyCharm(CE)?)|(IdeaIC)|(IntelliJIdea))[0-9]{4}\.[0-9]$"
 project="$(basename "${PWD}")"
 
-if [[ -z "${PROJECTS_BACKUP}" ]]; then echo "Please set PROJECTS_BACKUP folder" && exit 1; fi
-
 if [[ $1 = "docker" ]]; then
     curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null
     if [[ "$?" != "0" ]]; then echo "Docker daemon is down" && exit 1; fi
@@ -78,6 +76,9 @@ elif [[ $1 = "clean" ]]; then
     echo "rm ${plugins}" && rm -rf "${plugins}"
     echo "rm ${logs}"    && rm -rf "${logs}"
 elif [[ $1 = "deploy" ]]; then
+    if [[ -z "${VM_USER}" || -z "${VM_PORT}" || -z "${VM_KEY}" || -z "${VM_PATH}" ]]; then
+	echo "Please set all VM variables" && exit 1
+    fi
     shopt -s nullglob
     for archive in ~/Desktop/{idea,pycharm}*.tar.gz; do
         echo "deploying ${archive} ..."
@@ -90,9 +91,11 @@ elif [[ $1 = "deploy" ]]; then
     done
     shopt -u nullglob
 elif [[ $1 = "save" ]]; then
+    if [[ -z "${PROJECTS_BACKUP}" ]]; then echo "Please set PROJECTS_BACKUP folder" && exit 1; fi
     rm -rf "${PROJECTS_BACKUP}/${project}"
     cp -r "../${project}" "${PROJECTS_BACKUP}"
 elif [[ $1 = "goto" ]]; then
+    if [[ -z "${PROJECTS_BACKUP}" ]]; then echo "Please set PROJECTS_BACKUP folder" && exit 1; fi
     if [[ $2 = "backups" ]]; then
 	cd "${PROJECTS_BACKUP}"
     elif [[ $2 = "backup" ]]; then
