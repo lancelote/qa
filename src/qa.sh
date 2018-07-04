@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 
-version=0.1.10
+# Make sure to set the following environment variables:
+#
+#   PROJECTS_BACKUP - path to pycharm-qa-projects local repository copy
+#   VM_USER         - Ubuntu VM user name
+#   VM_PORT         - Ubuntu VM SSH port
+#   VM_KEY          - path to Ubuntu VM SSH secret key
+#   VM_PATH         - path on Ubuntu VM to install PyCharm to
+
+version=0.1.11
 ide_version_pattern="^((PyCharm(CE)?)|(IdeaIC)|(IntelliJIdea))[0-9]{4}\.[0-9]$"
 project="$(basename "${PWD}")"
 
@@ -73,7 +81,7 @@ elif [[ $1 = "deploy" ]]; then
     shopt -s nullglob
     for archive in ~/Desktop/{idea,pycharm}*.tar.gz; do
         echo "deploying ${archive} ..."
-        cat "${archive}" | ssh parallels@localhost -p 2200 -i ~/.ssh/parallels_vm "tar xzf - -C ~/jetbrains"
+        cat "${archive}" | ssh "${VM_USER}@localhost" -p "${VM_PORT}" -i "${VM_KEY}" "tar xzf - -C ${VM_PATH}"
         echo "rm ${archive}"
         rm "${archive}"
     done
