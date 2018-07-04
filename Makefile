@@ -5,6 +5,7 @@ help:
 	@echo "    Uninstall qa"
 
 install:
+	mkdir -p ~/bin
 	cp -f src/qa.sh ~/bin/qa
 	chmod +x ~/bin/qa
 
