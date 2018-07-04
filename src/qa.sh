@@ -1,13 +1,5 @@
 #!/usr/bin/env bash
 
-# Make sure to set the following environment variables:
-#
-#   PROJECTS_BACKUP - path to pycharm-qa-projects local repository copy
-#   VM_USER         - Ubuntu VM user name
-#   VM_PORT         - Ubuntu VM SSH port
-#   VM_KEY          - path to Ubuntu VM SSH secret key
-#   VM_PATH         - path on Ubuntu VM to install PyCharm to
-
 version=0.1.11
 ide_version_pattern="^((PyCharm(CE)?)|(IdeaIC)|(IntelliJIdea))[0-9]{4}\.[0-9]$"
 project="$(basename "${PWD}")"
