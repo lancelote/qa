@@ -1,3 +1,7 @@
+# DEPRECATED
+
+Experiment was finished. Python version is easier to use and mantaine.
+
 # qa
 
 QA automation script
